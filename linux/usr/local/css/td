@@ -1,0 +1,1 @@
+sudo tcpdump -vvvs 1024 -l -A host $1 | tee $2

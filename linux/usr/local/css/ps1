@@ -1,0 +1,17 @@
+#git branch 2>/dev/null|grep '*'|awk '{print $2}'
+#git name-rev --name-only @
+
+st=`git status -sbuno --ignore-submodules 2> /dev/null`
+[[ -z $st ]] && exit
+m=`echo "$st"|wc -l`
+[[ $m == 1 ]] && printf '\001\033[32m\002' || printf '\001\033[33m\002'
+
+st1=`echo "$st" | head -1`
+printf "$st1" | sed 's/## (.+)\.\.\..*/\1/g' -E
+
+printf "$st1" | grep "\[.*ahead.*\]$" > /dev/null && printf ">"
+printf "$st1" | grep "\[.*behind.*\]$" > /dev/null && printf "<"
+printf "$st1" | grep "\]$" > /dev/null || printf "="
+[[ $m > 1 ]] && printf "\001\033[1m\002$((m-1))"
+
+printf '\001\033[0m\002'

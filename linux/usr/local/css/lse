@@ -1,0 +1,1 @@
+find $1 -type f -not -path '*.git*' | grep -o '\.[^./]*$' | sort | uniq -c | sort -n
